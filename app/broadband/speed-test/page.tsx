@@ -40,7 +40,11 @@ export default function SpeedTestPage() {
         ]}
         title="Check your internet speed."
         description="See how fast your broadband connection really is."
-        image={{ src: "/images/hero-speed-test.webp", alt: "Checking broadband speed on a laptop" }}
+        image={{
+          src: "/images/hero-speed-test.webp",
+          mobileSrc: "/images/hero-speed-test-mobile.webp",
+          alt: "Checking broadband speed on a laptop",
+        }}
       >
         <SpeedTest />
       </Hero>

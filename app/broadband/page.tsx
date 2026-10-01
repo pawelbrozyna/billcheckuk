@@ -26,7 +26,11 @@ export default function BroadbandPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Broadband" }]}
         title="Compare broadband deals."
         description="Find broadband deals available in your area, including fibre and full fibre options."
-        image={{ src: "/images/hero-broadband.webp", alt: "A broadband router in a UK living room" }}
+        image={{
+          src: "/images/hero-broadband.webp",
+          mobileSrc: "/images/hero-broadband-mobile.webp",
+          alt: "A broadband router in a UK living room",
+        }}
       >
         <PostcodeCard buttonLabel="Find broadband deals" />
       </Hero>

@@ -16,6 +16,8 @@ type HeroProps = {
   /** "side" places the photo on the right; "bottom" runs it along the bottom edge. */
   imageLayout?: "side" | "bottom";
   size?: "default" | "large";
+  /** Mobile width of the description when a side photo backdrop is shown. */
+  mobileDescriptionWidth?: string;
   children?: ReactNode;
 };
 
@@ -35,7 +37,8 @@ const imageLayouts = {
   bottom: {
     wrapper:
       "absolute inset-x-0 top-0 h-[420px] [mask-image:linear-gradient(to_bottom,black_75%,transparent)] md:top-auto md:bottom-0 md:h-[18.75rem] md:[mask-image:linear-gradient(to_bottom,transparent,black_60%)]",
-    frame: "absolute inset-0",
+    frame:
+      "absolute inset-y-0 right-0 left-[20%] [mask-image:linear-gradient(to_right,transparent,black_30%)] md:left-0 md:[mask-image:none]",
     image: "object-cover object-bottom",
     sizes: "100vw",
   },
@@ -48,21 +51,39 @@ export function Hero({
   image,
   imageLayout = "side",
   size = "default",
+  mobileDescriptionWidth = "max-w-[62%]",
   children,
 }: HeroProps) {
   const layout = imageLayouts[imageLayout];
   const showImage = image && imageExists(image.src);
   const mobileBackdrop = showImage && imageLayout === "bottom";
+  const mobileSrc = image?.mobileSrc && imageExists(image.mobileSrc) ? image.mobileSrc : null;
+  const hasMobileSrc = mobileSrc !== null;
 
   return (
     <section className="relative overflow-hidden border-b border-line bg-hero">
+      {mobileSrc && imageLayout === "side" && (
+        <div className="absolute -top-24 bottom-0 right-0 aspect-[9/16] [mask-image:linear-gradient(to_right,transparent,black_45%)] lg:hidden">
+          <Image
+            src={mobileSrc}
+            alt=""
+            fill
+            loading="eager"
+            sizes="(min-width: 768px) 40vw, 80vw"
+            className="object-cover object-right opacity-80"
+          />
+        </div>
+      )}
+      {mobileSrc && imageLayout === "side" && (
+        <div className="absolute inset-0 bg-linear-to-r from-hero from-30% via-hero/70 via-60% to-transparent lg:hidden" />
+      )}
       {showImage && (
         <div className={layout.wrapper}>
           <div className={`${layout.frame} opacity-80`}>
-            {image.mobileSrc && imageExists(image.mobileSrc) ? (
+            {imageLayout === "bottom" && mobileSrc ? (
               <ArtDirectedImage
                 src={image.src}
-                mobileSrc={image.mobileSrc}
+                mobileSrc={mobileSrc}
                 alt={image.alt}
                 sizes={layout.sizes}
                 className={layout.image}
@@ -125,13 +146,13 @@ export function Hero({
         </h1>
         <p
           className={`mt-3 text-[0.9375rem] leading-6 text-muted sm:max-w-md sm:text-lg sm:leading-7 ${
-            mobileBackdrop ? "max-w-[60vw]" : "max-w-md"
+            mobileBackdrop ? "max-w-[60vw]" : hasMobileSrc ? mobileDescriptionWidth : "max-w-md"
           }`}
         >
           {description}
         </p>
         {children && (
-          <div className={mobileBackdrop ? "mt-24 md:mt-7" : "mt-6 sm:mt-7"}>{children}</div>
+          <div className={mobileBackdrop ? "mt-20 md:mt-7" : "mt-6 sm:mt-7"}>{children}</div>
         )}
       </Container>
     </section>

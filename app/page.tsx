@@ -1,10 +1,10 @@
+import Image from "next/image";
 import { ButtonLink } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
 import { Hero } from "@/components/Hero";
 import {
   BoltIcon,
   ClockIcon,
-  SpeedometerIcon,
   ShieldIcon,
   UsersIcon,
   WifiIcon,
@@ -32,7 +32,7 @@ const options = [
     text: "Find better broadband deals in your area.",
     href: "/broadband",
     cta: "Check broadband",
-    variant: "outline" as const,
+    variant: "primary" as const,
     icon: <WifiIcon strokeWidth={2.4} className="h-6 w-6 sm:h-7 sm:w-7" />,
     iconStyle: "bg-blue-100 text-cta",
   },
@@ -71,7 +71,7 @@ export default function Home() {
               </span>
               <div className="mt-3 flex-1 md:mt-0">
                 <h2 className="text-lg font-semibold text-navy">{label}</h2>
-                <p className="mt-1 text-sm leading-5 text-muted md:leading-6">{text}</p>
+                <p className="mt-1 text-[0.8125rem] leading-5 text-muted">{text}</p>
               </div>
               <ButtonLink
                 href={href}
@@ -103,7 +103,15 @@ export default function Home() {
         text="See how fast your broadband connection really is."
         href="/broadband/speed-test"
         label="Start speed test"
-        icon={<SpeedometerIcon className="h-6 w-6 sm:h-7 sm:w-7" />}
+        icon={
+          <Image
+            src="/images/icon-speedometer.webp"
+            alt=""
+            width={160}
+            height={108}
+            className="h-auto w-8 sm:w-9"
+          />
+        }
       />
     </>
   );

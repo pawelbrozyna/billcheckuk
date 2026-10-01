@@ -23,7 +23,12 @@ export default function EnergyPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Energy" }]}
         title="Compare energy deals."
         description="Check available gas and electricity tariffs and see if you could pay less on your energy bills."
-        image={{ src: "/images/hero-energy.webp", alt: "A bright, modern UK living room" }}
+        image={{
+          src: "/images/hero-energy.webp",
+          mobileSrc: "/images/hero-energy-mobile.webp",
+          alt: "A bright, modern UK living room",
+        }}
+        mobileDescriptionWidth="max-w-[75%]"
       >
         <PostcodeCard buttonLabel="Find energy deals" />
       </Hero>
